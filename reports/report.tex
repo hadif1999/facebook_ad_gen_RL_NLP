@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{setspace}
+\onehalfspacing
+
+\title{Analytical Report: Improving Generative Ad Text on Facebook using Reinforcement Learning}
+\author{Course Project Prototype}
+\date{February 6, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report analyzes the paper ``Improving Generative Ad Text on Facebook using Reinforcement Learning'' (arXiv:2507.21983v2). The paper studies a production deployment of an RL-trained large language model (LLM) for generating ad text on Facebook. It introduces Reinforcement Learning with Performance Feedback (RLPF), which uses historical ad performance as a reward signal. A large-scale A/B test on nearly 35,000 advertisers shows a statistically significant relative lift in advertiser-level click-through rate (CTR). This report explains the problem, data, method, experiment, results, limitations, and provides a small prototype plan aligned with the course requirements.
+\end{abstract}
+
+\section{Problem and Motivation}
+Large language models (LLMs) require post-training to align them with real-world objectives. Much of the post-training literature focuses on human preferences (e.g., RLHF), but the economic impact of post-training is less understood. The paper asks whether reinforcement learning with real performance metrics can improve outcomes in a high-stakes product setting: ad text generation. In online advertising, even small CTR improvements translate into meaningful economic gains, making this domain a strong testbed for post-training impact.
+
+\section{System Inputs and Outputs}
+The product is a text generation feature in Meta Ads Manager. The system:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Input:} A human-written ad text provided by the advertiser.
+    \item \textbf{Output:} Multiple AI-generated ad text variations that the advertiser can select and edit.
+\end{itemize}
+The core objective is not to produce a single best rewrite but to supply a set of high-quality variants for human selection.
+
+\section{Data}
+The method depends on historical ad performance data where only the text varies while other ad components (image, targeting, budget) are held constant. This ``multitext'' setup allows performance differences to be attributed to text changes.
+
+Key details:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Type:} Historical ad text pairs with different CTR values.
+    \item \textbf{Source:} Meta/Facebook ad platform data.
+    \item \textbf{Scale:} A/B test over approximately 35,000 advertisers and 640,000 ad variations during a 10-week period.
+\end{itemize}
+
+\section{Method: Reinforcement Learning with Performance Feedback (RLPF)}
+RLPF combines reward modeling with policy optimization:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Reward Model.} Use historical multitext data to construct preference pairs: given two ad texts with different CTRs, the higher-CTR text is labeled as preferred. Train a reward model to assign higher scores to texts with better performance.
+    \item \textbf{RL Fine-tuning.} Use the reward model as a proxy environment. Fine-tune the LLM using Proximal Policy Optimization (PPO) to maximize reward while staying close to a reference model (via KL penalty). A length penalty discourages overly long ad text.
+\end{enumerate}
+
+A simplified objective is:
+\begin{equation}
+\max_{\pi_\phi} \; \mathbb{E}_{x \sim D,\, y \sim \pi_\phi(y|x)}\left[r_\theta(x,y) - \beta \mathrm{KL}(\pi_\phi || \pi_{ref}) - \alpha \cdot \text{length}(y)\right]
+\end{equation}
+
+\section{Baselines and Model Variants}
+The paper compares:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Imitation LLM v1:} SFT on synthetic rewrites.
+    \item \textbf{Imitation LLM v2:} SFT on synthetic + human-written rewrites.
+    \item \textbf{AdLlama (proposed):} Imitation v2 further trained with RLPF.
+\end{itemize}
+All models are based on Llama 2 Chat 7B.
+
+\section{Experiment Design}
+A randomized A/B test evaluates the impact of RLPF:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Period:} February 16, 2024 to April 25, 2024 (10 weeks).
+    \item \textbf{Population:} 34,849 US advertisers.
+    \item \textbf{Assignment:} Advertiser-level randomization to control (Imitation v2) or treatment (AdLlama).
+    \item \textbf{Metrics:} Advertiser-level CTR, clicks, impressions, number of ads, number of ad variations.
+\end{itemize}
+The main analysis uses log-binomial regression with covariates to estimate CTR lift.
+
+\section{Results}
+The primary result is a statistically significant improvement in advertiser-level CTR:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Relative CTR lift:} +6.7\% for AdLlama vs. Imitation v2 (p = 0.0296).
+    \item \textbf{Absolute CTR:} approximately 3.1\% to 3.3\%.
+    \item \textbf{Ad variations:} +18.5\% increase in the number of text variants created.
+    \item \textbf{Number of ads:} no statistically significant change.
+\end{itemize}
+These gains are meaningful in a mature advertising platform where large CTR gains are difficult to achieve.
+
+\section{Limitations}
+The authors highlight several constraints:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Offline-only RL:} The reward model is trained on historical data; there is no real-time learning loop.
+    \item \textbf{Single objective:} CTR is optimized without explicit constraints on tone, creativity, or advertiser preference.
+    \item \textbf{Human selection not modeled:} The reward does not consider which AI suggestions advertisers actually choose.
+    \item \textbf{Platform-level effects:} Broader impacts (ad diversity, user experience) are not evaluated.
+\end{itemize}
+
+\section{Course Prototype (Planned Implementation)}
+The paper does not release code or public data. For this course project, we propose a prototype that approximates the RLPF pipeline:
+\begin{itemize}[leftmargin=*]
+    \item Use the Meta Ad Library API to collect real ad text (political/issue ads). When API access is unavailable, use synthetic ad text and CTR proxies.
+    \item Train a reward model on text-performance pairs (TF-IDF + Ridge baseline).
+    \item Generate multiple text variants using template-based transformations.
+    \item Select the best variant by reward score and report improvements.
+\end{itemize}
+This prototype does not replace online RL but demonstrates the core logic of performance-driven post-training.
+
+\section{Conclusion}
+This paper provides one of the largest real-world evaluations of RL-based post-training for LLMs. By aligning a model with performance feedback, the authors demonstrate a measurable CTR lift and increased advertiser adoption. The work suggests that aggregate performance metrics can serve as scalable rewards for LLM alignment, bridging the gap between model capability and business impact.
+
+\end{document}
