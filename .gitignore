@@ -25,3 +25,7 @@ demo/ads_real.csv
 
 # OS files
 .DS_Store
+
+
+!project_video.txt
+!presentation_video.txt

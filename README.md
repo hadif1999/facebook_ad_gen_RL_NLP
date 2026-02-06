@@ -37,6 +37,15 @@ This produces:
 - `logs/agent_runs_*.json`
 - `logs/ads_*.csv`
 
+## CLI Arguments (run_demo.py)
+- `--search-terms`: Search keywords for Ad Library API queries. If no API token is provided, it does not change synthetic data generation. Default: `education`.
+- `--countries`: Comma-separated country codes for `ad_reached_countries` in the Ad Library API. Default: `US`.
+- `--max-records`: Maximum number of ads to fetch or generate. Default: `300`.
+- `--token`: Access token for Meta Ad Library API. If omitted, the script uses synthetic fallback data. Default: `None`.
+- `--n-variations`: Number of text variations generated per ad. Default: `5`.
+- `--seed`: Random seed for reproducible generation and sampling. Default: `42`.
+- `--out-dir`: Output directory for run artifacts. Default: `logs`.
+
 ## Running with Real data Meta Ad Library API (Optional)
 You need a valid access token and API access for the Ad Library archive.
 
