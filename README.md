@@ -37,7 +37,7 @@ This produces:
 - `logs/agent_runs_*.json`
 - `logs/ads_*.csv`
 
-## Running with Meta Ad Library API (Real Data)
+## Running with Real data Meta Ad Library API (Optional)
 You need a valid access token and API access for the Ad Library archive.
 
 Set environment variables:
