@@ -92,3 +92,10 @@ The prototype produces a few key outputs to make results easy to interpret:
 
 ## Reproducibility
 All random seeds are configurable via CLI. See `experiments.md` for run settings and metrics.
+
+### project video link 
+https://drive.google.com/file/d/1XAQF1NJEWgyr3Kl9dkaUCsAdUWYZK_Vg/view?usp=drive_link
+
+### presentation video link 
+https://drive.google.com/file/d/1EIfssUWH0sL1ZAE9eJqcefhM1oQhEvB6/view?usp=drive_link
+
