@@ -1,14 +1,14 @@
 # Demo Data
 
-این پوشه برای اجرای نوت‌بوک و تولید خروجی‌های نموداری طراحی شده است.
+This folder is used to run the notebook and generate plots.
 
-## داده واقعی (Ad Library API)
-برای دریافت داده واقعی تبلیغ، از Ad Library API استفاده کنید. این API فقط تبلیغات سیاسی/اجتماعی را پوشش می‌دهد و نیازمند دسترسی و توکن تأییدشده است.
+## Real Data (Ad Library API)
+To fetch real ad data, use the Meta Ad Library API. This API only covers political/issue ads and requires an approved access token.
 
-- مستندات رسمی: https://developers.facebook.com/docs/marketing-api/reference/ads_archive/
-- ابزار رسمی استخراج داده: https://github.com/facebookresearch/Ad-Library-API-Script-Repository
+- Official docs: https://developers.facebook.com/docs/marketing-api/reference/ads_archive/
+- Official extraction tool: https://github.com/facebookresearch/Ad-Library-API-Script-Repository
 
-پس از دریافت داده، آن را در قالب CSV ذخیره کنید و ستون‌های متنی را در نوت‌بوک بارگذاری نمایید.
+After downloading, save the data as `demo/ads_real.csv` and load the text columns in the notebook. Do not commit the CSV to the repo.
 
-## داده مصنوعی
-برای اجرای سریع، از فایل `../data/synthetic_ads.csv` استفاده کنید. این فایل شامل متن‌های ساختگی و CTR مصنوعی است.
+## Synthetic Data
+If `demo/ads_real.csv` does not exist, the notebook will generate synthetic ads on the fly (no file is saved).

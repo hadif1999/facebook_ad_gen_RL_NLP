@@ -2,25 +2,25 @@ import random
 from typing import List
 
 CTA = [
-    "همین امروز امتحان کنید",
-    "اکنون ثبت‌نام کنید",
-    "جزئیات بیشتر",
-    "خرید کنید",
-    "شروع کنید",
-    "اطلاعات بیشتر",
+    "Try it today",
+    "Sign up now",
+    "Learn more",
+    "Shop now",
+    "Get started",
+    "See details",
 ]
 
 PREFIXES = [
-    "فرصت محدود:",
-    "ویژه امروز:",
-    "پیشنهاد تازه:",
+    "Limited time:",
+    "Today only:",
+    "New offer:",
 ]
 
 
 def _to_question(text: str) -> str:
-    if text.endswith("؟"):
+    if text.endswith("?"):
         return text
-    return f"{text.rstrip('.')}؟"
+    return f"{text.rstrip('.')}?"
 
 
 def _shorten(text: str) -> str:

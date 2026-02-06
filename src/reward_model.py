@@ -15,11 +15,11 @@ except ImportError:  # pragma: no cover - fallback path
 
 def _heuristic_score(text: str) -> float:
     score = 0.01
-    if any(token in text for token in ["ثبت‌نام", "خرید", "شروع", "جزئیات"]):
+    if any(token in text for token in ["Sign up", "Shop", "Get started", "Learn more", "See details"]):
         score += 0.008
     if 60 <= len(text) <= 120:
         score += 0.004
-    if "؟" in text:
+    if "?" in text:
         score += 0.002
     return max(score, 0.001)
 

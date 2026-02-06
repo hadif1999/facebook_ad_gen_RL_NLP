@@ -5,17 +5,17 @@ from .generator import generate_variations
 from .reward_model import RewardModel
 
 COPYWRITER_PROMPT = (
-    "نقش: کپی‌رایتر تبلیغاتی. هدف: بازنویسی متن تبلیغ برای افزایش تعامل. "
-    "محدودیت: متن کوتاه، واضح، دارای دعوت به اقدام."
+    "Role: ad copywriter. Goal: rewrite the ad text to increase engagement. "
+    "Constraint: short, clear, with a call-to-action."
 )
 
 CRITIC_PROMPT = (
-    "نقش: منتقد عملکرد. هدف: امتیازدهی به متن‌ها با معیار احتمال کلیک (CTR). "
-    "خروجی: امتیاز عددی و یک دلیل کوتاه."
+    "Role: performance critic. Goal: score texts by predicted CTR. "
+    "Output: numeric score and a short reason."
 )
 
 SELECTOR_PROMPT = (
-    "نقش: انتخاب‌گر. هدف: انتخاب بهترین متن بر اساس امتیاز منتقد و حفظ شفافیت پیام."
+    "Role: selector. Goal: pick the best text based on critic scores and clarity."
 )
 
 
@@ -31,7 +31,7 @@ def run_multi_agent_sim(
     scores = reward_model.score_texts([original_text] + variations)
     critique = []
     for text, score in zip([original_text] + variations, scores):
-        reason = "CTA روشن" if "ثبت‌نام" in text or "خرید" in text else "پیام ساده"
+        reason = "Strong CTA" if "Sign up" in text or "Shop" in text else "Clear message"
         critique.append({"text": text, "score": round(score, 4), "reason": reason})
 
     best_idx = max(range(len(scores)), key=lambda i: scores[i])

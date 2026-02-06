@@ -9,6 +9,7 @@ __pycache__/
 
 # Logs and outputs
 logs/
+demo/ads_real.csv
 
 # LaTeX build artifacts
 *.aux
@@ -19,6 +20,8 @@ logs/
 *.lot
 *.fls
 *.fdb_latexmk
+*.txt
+*venv*
 
 # OS files
 .DS_Store

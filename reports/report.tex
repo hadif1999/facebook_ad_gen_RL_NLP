@@ -11,7 +11,7 @@
 \onehalfspacing
 
 \title{Analytical Report: Improving Generative Ad Text on Facebook using Reinforcement Learning}
-\author{Course Project Prototype}
+\author{NLP Course Project}
 \date{February 6, 2026}
 
 \begin{document}
@@ -101,6 +101,24 @@ The paper does not release code or public data. For this course project, we prop
     \item Select the best variant by reward score and report improvements.
 \end{itemize}
 This prototype does not replace online RL but demonstrates the core logic of performance-driven post-training.
+
+\section{Prototype Outputs and Interpretation}
+The prototype produces several artifacts to make results transparent:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Notebook outputs (demo/):} The notebook loads data (real or synthetic), trains a reward model, simulates RLPF-style selection, and plots a histogram of reward improvements. The histogram shows how often the selected variation improves the reward score over the original text, and the distribution of improvement magnitudes.
+    \item \textbf{Run summary JSON (logs/summary\_*.json):} A compact aggregate report with:
+    \begin{itemize}[leftmargin=*]
+        \item \texttt{count}: number of evaluated texts.
+        \item \texttt{mean\_original}: average reward of the original texts.
+        \item \texttt{mean\_best}: average reward of the best selected variation.
+        \item \texttt{mean\_delta}: mean improvement (\texttt{best - original}).
+        \item \texttt{median\_delta}: median improvement.
+        \item \texttt{improvement\_rate}: fraction of cases where the selected text scores higher than the original.
+    \end{itemize}
+    \item \textbf{Agent trace JSON (logs/agent\_runs\_*.json):} Two example runs showing the original text, generated variations, reward scores, and the selected best text. This is a qualitative check that the selection behavior is sensible.
+    \item \textbf{Ads CSV (logs/ads\_*.csv):} A snapshot of the processed dataset with text, proxy scores, and metadata. This can be used for further analysis or auditing.
+\end{itemize}
+These outputs provide both quantitative and qualitative evidence of the prototype’s behavior.
 
 \section{Conclusion}
 This paper provides one of the largest real-world evaluations of RL-based post-training for LLMs. By aligning a model with performance feedback, the authors demonstrate a measurable CTR lift and increased advertiser adoption. The work suggests that aggregate performance metrics can serve as scalable rewards for LLM alignment, bridging the gap between model capability and business impact.

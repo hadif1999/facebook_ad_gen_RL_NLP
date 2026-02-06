@@ -17,11 +17,11 @@ from src.rlpf_sim import simulate_rlpf
 def _proxy_score(text: str) -> float:
     length = len(text)
     score = 0.01
-    if any(token in text for token in ["ثبت‌نام", "خرید", "شروع", "جزئیات"]):
+    if any(token in text for token in ["Sign up", "Shop", "Get started", "Learn more", "See details"]):
         score += 0.008
     if 60 <= length <= 120:
         score += 0.004
-    if "؟" in text:
+    if "?" in text:
         score += 0.002
     return max(score, 0.001)
 

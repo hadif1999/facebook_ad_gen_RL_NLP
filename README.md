@@ -58,12 +58,23 @@ Official references:
 ## Demo Notebook
 Open `demo/demo.ipynb` to reproduce the simulation and plots. The notebook reads `data/synthetic_ads.csv` by default.
 
-## Paper Summary
-- English: `reports/paper_summary_en.md`
-- Persian: `reports/paper_summary_fa.md`
-- PDF (English): `reports/paper_summary.pdf`
+## Outputs and Interpretation
+The prototype produces a few key outputs to make results easy to interpret:
 
-If you need a Persian PDF, convert `reports/paper_summary_fa.md` with a local tool (e.g., pandoc + Persian font).
+- **Notebook plots (`demo/demo.ipynb`)**: A histogram of reward improvements (`delta = best_score - original_score`). This shows how often the selected variation improves the reward and how large those improvements are.
+- **Run summary JSON (`logs/summary_*.json`)**:
+  - `count`: number of texts evaluated.
+  - `mean_original`: average reward of the original texts.
+  - `mean_best`: average reward of the selected best variations.
+  - `mean_delta`: mean improvement (`best - original`).
+  - `median_delta`: median improvement.
+  - `improvement_rate`: fraction of cases where the best variation scores higher than the original.
+- **Agent trace JSON (`logs/agent_runs_*.json`)**: Two example runs with the original text, generated variations, reward scores, and the selected best text. This provides a qualitative sanity check.
+- **Ads CSV (`logs/ads_*.csv`)**: The processed dataset snapshot (text + proxy scores + metadata) for further analysis.
+
+## Paper Summary
+- PDF : `reports/report.pdf`
+
 
 ## Notes and Limitations
 - The real paper uses **live A/B testing**; this repo provides a **simulation** with synthetic rewards when real data is not accessible.
